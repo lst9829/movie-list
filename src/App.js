@@ -1,5 +1,6 @@
 import './App.css';
 import {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 
 let watchedArray = [];
 let toWatchArray = [];
@@ -90,7 +91,9 @@ function App() {
         <button type="submit" onClick={() => handleAdd()}>Add New Movie</button>
         {movies.map((movie) => (
           <div key={movie.id}>
-            <div>{movie.title}</div>
+            <Link to='/:id'>
+              <div>{movie.title}</div>
+            </Link>
             <button type='submit' onClick={() => handleDelete(movie.title)}>Delete</button>
             <label>
               <input type='checkbox' value={movie.title} onChange={(event) => handleWatched(event.target.checked, event.target.value)}/>
