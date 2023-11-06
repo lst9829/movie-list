@@ -1,15 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
 
 function App() {
+  const[movies, setMovies] = useState([{
+    id: 0,
+    title: ''
+  }])
 
-  const movies = [
-    {title: 'Mean Girls'},
-    {title: 'Hackers'},
-    {title: 'The Grey'},
-    {title: 'Sunshine'},
-    {title: 'Ex Machina'},
-  ];
+  useEffect(() => {
+    fetch('http://localhost:8000/movies')
+    .then(res => res.json())
+    .then(data => setMovies((data)))
+  }, [])
 
   return (
     <div className="App">
