@@ -14,8 +14,9 @@ function App() {
   useEffect(() => {
     fetch('http://localhost:8000/movies')
     .then(res => res.json())
-    .then(data => setMovies((data)))
-  }, [newMovie])
+    .then(data => data.filter(id => id.id > 5))
+    .then(filteredData => setMovies(filteredData))
+  }, [movies])
 
   const handleSearch = () => {
     setClicked(true)
@@ -35,8 +36,21 @@ function App() {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(jsonData)
     })
+    setNewMovie("");
   }
 
+  const handleDelete = (value) => {
+    const filteredMovies = movies.filter(title => title.title !== value)
+    setMovies(filteredMovies)
+    const jsonData = {
+      "title": value
+    }
+    fetch('http://localhost:8000/movies', {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(jsonData)
+    })
+  }
   return (
     <div className="App">
       {clicked === false ?
@@ -48,6 +62,7 @@ function App() {
         {movies.map(movie => (
           <div key={movie.id}>
             <div>{movie.title}</div>
+            <button type='submit' onClick={() => handleDelete(movie.title)}>Delete</button>
           </div>
         ))}
       </> :
